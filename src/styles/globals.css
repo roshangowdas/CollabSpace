@@ -1,0 +1,255 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Hoy Design System palette — Warm Editorial Light Surface */
+    --background: 60 6% 97%;
+    --foreground: 60 2% 34%; /* Hoy color-2 #585855 */
+
+    --card: 0 0% 100%; /* Hoy color-6 #FFFFFF */
+    --card-foreground: 60 2% 34%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 60 2% 34%;
+
+    --primary: 60 2% 34%; /* Hoy color-2 */
+    --primary-foreground: 60 6% 96%;
+
+    --secondary: 60 6% 92%; /* Hoy color-5 #ECECEA */
+    --secondary-foreground: 60 2% 34%;
+
+    --muted: 60 6% 92%; /* Hoy color-5 #ECECEA */
+    --muted-foreground: 60 2% 44%; /* Hoy color-3 #73736F */
+
+    --accent: 60 6% 90%;
+    --accent-foreground: 60 2% 34%;
+
+    /* Brand Accent for primary actions & active states */
+    --brand: 221.2 83.2% 53.3%;
+    --brand-foreground: 210 40% 98%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --success: 142.1 76.2% 36.3%;
+    --success-foreground: 355.7 100% 97.3%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 48 96% 89%;
+
+    --info: 199 89% 48%;
+    --info-foreground: 204 100% 97%;
+
+    --border: 60 4% 86%;
+    --input: 60 4% 86%;
+    --ring: 60 2% 34%;
+
+    /* Sidebar specific tokens */
+    --sidebar-background: 60 6% 95%;
+    --sidebar-foreground: 60 2% 34%;
+    --sidebar-primary: 60 2% 34%;
+    --sidebar-primary-foreground: 60 6% 96%;
+    --sidebar-accent: 60 6% 90%;
+    --sidebar-accent-foreground: 60 2% 34%;
+    --sidebar-border: 60 4% 86%;
+
+    --radius: 6px; /* Hoy radius-lg */
+  }
+
+  .dark {
+    /* Hoy Design System palette — Deep Neutral Warm Dark Surface */
+    --background: 60 3% 9.6%; /* Hoy color-1 #191918 */
+    --foreground: 60 6% 92%; /* Hoy color-5 #ECECEA */
+
+    --card: 60 2% 13.5%;
+    --card-foreground: 60 6% 92%;
+
+    --popover: 60 2% 13.5%;
+    --popover-foreground: 60 6% 92%;
+
+    --primary: 60 6% 92%;
+    --primary-foreground: 60 3% 9.6%;
+
+    --secondary: 60 2% 18%;
+    --secondary-foreground: 60 6% 92%;
+
+    --muted: 60 2% 18%;
+    --muted-foreground: 240 2% 57%; /* Hoy color-4 #8E8E93 */
+
+    --accent: 60 2% 18%;
+    --accent-foreground: 60 6% 92%;
+
+    --brand: 217.2 91.2% 59.8%;
+    --brand-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 62.8% 45%;
+    --destructive-foreground: 0 0% 98%;
+
+    --success: 142.1 70.6% 45.3%;
+    --success-foreground: 144 61% 10%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 38 92% 10%;
+
+    --info: 199 89% 48%;
+    --info-foreground: 199 89% 10%;
+
+    --border: 60 2% 22%;
+    --input: 60 2% 22%;
+    --ring: 60 6% 92%;
+
+    /* Sidebar specific tokens dark */
+    --sidebar-background: 60 3% 9.6%; /* Hoy color-1 #191918 */
+    --sidebar-foreground: 60 6% 92%;
+    --sidebar-primary: 60 6% 92%;
+    --sidebar-primary-foreground: 60 3% 9.6%;
+    --sidebar-accent: 60 2% 16%;
+    --sidebar-accent-foreground: 60 6% 92%;
+    --sidebar-border: 60 2% 18%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Disable Microsoft Edge / browser default password reveal and clear icons so custom Eye icon does not duplicate */
+  input[type="password"]::-ms-reveal,
+  input[type="password"]::-ms-clear {
+    display: none !important;
+  }
+}
+
+/* Custom scrollbar for sleek dashboard feel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.2);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.4);
+}
+
+/* Collaborative Document Editor (Tiptap & Yjs) */
+.tiptap {
+  outline: none;
+  min-height: 380px;
+}
+
+.tiptap p {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.7;
+}
+
+.tiptap h1 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.tiptap h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1.35;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.tiptap h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-top: 1rem;
+  margin-bottom: 0.35rem;
+}
+
+.tiptap ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.tiptap ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.tiptap li {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.tiptap blockquote {
+  border-left: 3px solid hsl(var(--brand));
+  padding-left: 1rem;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  color: hsl(var(--muted-foreground));
+  font-style: italic;
+}
+
+.tiptap a {
+  color: hsl(var(--brand));
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.tiptap code {
+  background-color: hsl(var(--muted));
+  padding: 0.15rem 0.35rem;
+  border-radius: 0.25rem;
+  font-family: monospace;
+  font-size: 0.85em;
+}
+
+/* Collaborative Cursors & Peer Carets */
+.collaboration-cursor__caret {
+  border-left: 1px solid #0d0d0d;
+  border-right: 1px solid #0d0d0d;
+  margin-left: -1px;
+  margin-right: -1px;
+  pointer-events: none;
+  position: relative;
+  word-break: normal;
+}
+
+.collaboration-cursor__label {
+  border-radius: 3px 3px 3px 0;
+  color: #fff;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 600;
+  left: -1px;
+  line-height: normal;
+  padding: 1px 5px;
+  position: absolute;
+  top: -1.5em;
+  user-select: none;
+  white-space: nowrap;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+  z-index: 20;
+}
+
