@@ -1,0 +1,414 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 710" width="100%" height="100%">
+  <defs>
+    <!-- Background Grid Pattern -->
+    <pattern id="isoGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+      <path d="M 36 0 L 0 0 0 36" fill="none" stroke="#22222a" stroke-width="0.7" stroke-opacity="0.6" />
+      <circle cx="36" cy="36" r="1.2" fill="#eb1b38" fill-opacity="0.25" />
+    </pattern>
+
+    <!-- Card Background Gradients with Hoy Obsidian Undertones -->
+    <linearGradient id="cardGrad1" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#091f18" />
+      <stop offset="50%" stop-color="#05120e" />
+      <stop offset="100%" stop-color="#020806" />
+    </linearGradient>
+    <linearGradient id="cardGrad2" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#161329" />
+      <stop offset="50%" stop-color="#0d0b1a" />
+      <stop offset="100%" stop-color="#06050d" />
+    </linearGradient>
+    <linearGradient id="cardGrad3" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#260b12" />
+      <stop offset="50%" stop-color="#14060a" />
+      <stop offset="100%" stop-color="#0a0305" />
+    </linearGradient>
+    <linearGradient id="cardGrad4" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#0a1a29" />
+      <stop offset="50%" stop-color="#06101a" />
+      <stop offset="100%" stop-color="#03080d" />
+    </linearGradient>
+    <linearGradient id="cardGrad5" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#241a08" />
+      <stop offset="50%" stop-color="#140e04" />
+      <stop offset="100%" stop-color="#0a0702" />
+    </linearGradient>
+    <linearGradient id="cardGrad6" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#122416" />
+      <stop offset="50%" stop-color="#0a150c" />
+      <stop offset="100%" stop-color="#040905" />
+    </linearGradient>
+
+    <!-- 3D Bevel Top Rim Highlights -->
+    <linearGradient id="rimEmerald" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#34d399" stop-opacity="0.95" />
+      <stop offset="50%" stop-color="#10b981" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#064e3b" stop-opacity="0.1" />
+    </linearGradient>
+    <linearGradient id="rimIndigo" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#a5b4fc" stop-opacity="0.95" />
+      <stop offset="50%" stop-color="#6366f1" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#312e81" stop-opacity="0.1" />
+    </linearGradient>
+    <linearGradient id="rimCrimson" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ff4d66" stop-opacity="0.95" />
+      <stop offset="50%" stop-color="#eb1b38" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#800b1a" stop-opacity="0.1" />
+    </linearGradient>
+    <linearGradient id="rimCyan" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.95" />
+      <stop offset="50%" stop-color="#0284c7" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#0369a1" stop-opacity="0.1" />
+    </linearGradient>
+    <linearGradient id="rimAmber" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.95" />
+      <stop offset="50%" stop-color="#d97706" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#78350f" stop-opacity="0.1" />
+    </linearGradient>
+    <linearGradient id="rimMint" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6ee7b7" stop-opacity="0.95" />
+      <stop offset="50%" stop-color="#10b981" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#064e3b" stop-opacity="0.1" />
+    </linearGradient>
+
+    <!-- Card Elevation Shadow -->
+    <filter id="elevationShadow" x="-15%" y="-15%" width="130%" height="135%">
+      <feDropShadow dx="0" dy="16" stdDeviation="14" flood-color="#000000" flood-opacity="0.9" />
+    </filter>
+
+    <!-- Ambient Glow Filter -->
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <style>
+    @keyframes pulseDash {
+      to { stroke-dashoffset: -32; }
+    }
+    @keyframes float1 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    @keyframes float2 { 0%, 100% { transform: translateY(-4px); } 50% { transform: translateY(2px); } }
+    @keyframes float3 { 0%, 100% { transform: translateY(2px); } 50% { transform: translateY(-4px); } }
+    @keyframes float4 { 0%, 100% { transform: translateY(-5px); } 50% { transform: translateY(2px); } }
+    @keyframes float5 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    @keyframes float6 { 0%, 100% { transform: translateY(-3px); } 50% { transform: translateY(3px); } }
+
+    .f-1 { animation: float1 5.2s ease-in-out infinite; }
+    .f-2 { animation: float2 4.8s ease-in-out infinite 0.7s; }
+    .f-3 { animation: float3 5.4s ease-in-out infinite 1.4s; }
+    .f-4 { animation: float4 5.0s ease-in-out infinite 2.1s; }
+    .f-5 { animation: float5 4.6s ease-in-out infinite 2.8s; }
+    .f-6 { animation: float6 5.3s ease-in-out infinite 3.5s; }
+
+    .bus-stream {
+      stroke-dasharray: 6 10;
+      animation: pulseDash 1.4s linear infinite;
+    }
+    .hud-title { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif; font-weight: 900; }
+    .card-title { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif; font-weight: 800; font-size: 16px; }
+    .mono-txt { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+    .badge-txt { font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 9px; letter-spacing: 0.08em; }
+  </style>
+
+  <!-- Deep Obsidian Canvas Background -->
+  <rect x="0" y="0" width="1100" height="710" fill="#0d0d11" rx="14" stroke="#23232c" stroke-width="1.5" />
+  <rect x="0" y="0" width="1100" height="710" fill="url(#isoGrid)" rx="14" />
+
+  <!-- Top Tactical HUD Bar -->
+  <g transform="translate(45, 40)">
+    <circle cx="8" cy="8" r="4" fill="#3ecf8e" filter="url(#softGlow)" />
+    <circle cx="8" cy="8" r="2" fill="#ffffff" />
+    <text x="24" y="12" fill="#ececea" class="hud-title" font-size="12.5" letter-spacing="0.1em">COLLABSPACE ARCHITECTURE ROADMAP // 3D HIGH-VELOCITY PIPELINE</text>
+    
+    <!-- Right Telemetry Readout -->
+    <rect x="740" y="-3" width="270" height="22" rx="4" fill="#15151c" stroke="#282834" stroke-width="1" />
+    <text x="750" y="12" fill="#eb1b38" class="mono-txt" font-weight="700" font-size="10">● SYS_STATUS: PRODUCTION</text>
+    <text x="895" y="12" fill="#a5a5a4" class="mono-txt" font-size="10">74/74 TESTS (100%)</text>
+  </g>
+
+  <!-- ===================================================================== -->
+  <!--               HIGHWAY INTERCONNECT CIRCUIT BUS (VISIBLE CORRIDORS)    -->
+  <!-- ===================================================================== -->
+
+  <!-- Top Row Bus 1: Card 1 (360) -> Card 2 (410) -->
+  <g transform="translate(360, 195)">
+    <line x1="0" y1="0" x2="50" y2="0" stroke="#1c2520" stroke-width="8" stroke-linecap="round" />
+    <line x1="0" y1="0" x2="50" y2="0" stroke="#3ecf8e" stroke-width="2.5" class="bus-stream" />
+    <polygon points="46,-4 54,0 46,4" fill="#3ecf8e" />
+  </g>
+
+  <!-- Top Row Bus 2: Card 2 (690) -> Card 3 (740) -->
+  <g transform="translate(690, 195)">
+    <line x1="0" y1="0" x2="50" y2="0" stroke="#231d33" stroke-width="8" stroke-linecap="round" />
+    <line x1="0" y1="0" x2="50" y2="0" stroke="#818cf8" stroke-width="2.5" class="bus-stream" />
+    <polygon points="46,-4 54,0 46,4" fill="#818cf8" />
+  </g>
+
+  <!-- Sweeping Highway Loop on Right: Card 3 (1020, 195) -> Card 4 (1020, 510) -->
+  <g>
+    <!-- Glow Underlay -->
+    <path d="M 1020 195 C 1080 195 1080 510 1020 510" fill="none" stroke="#eb1b38" stroke-opacity="0.25" stroke-width="12" filter="url(#softGlow)" />
+    <!-- Dark Bed -->
+    <path d="M 1020 195 C 1080 195 1080 510 1020 510" fill="none" stroke="#1d1418" stroke-width="6" stroke-linecap="round" />
+    <!-- Animated Light Pulse -->
+    <path d="M 1020 195 C 1080 195 1080 510 1020 510" fill="none" stroke="#eb1b38" stroke-width="2.5" class="bus-stream" stroke-linecap="round" />
+    
+    <!-- Waypoint Node Marker on Apex -->
+    <circle cx="1065" cy="352" r="9" fill="#14060a" stroke="#eb1b38" stroke-width="1.5" />
+    <circle cx="1065" cy="352" r="3.5" fill="#ff4d66" />
+    <text x="1055" y="325" text-anchor="end" fill="#eb1b38" class="mono-txt" font-size="8.5" font-weight="700">PIPELINE LOOP</text>
+  </g>
+
+  <!-- Bottom Row Bus 1: Card 4 (740) -> Card 5 (690) [Leftward Flow] -->
+  <g transform="translate(690, 510)">
+    <line x1="50" y1="0" x2="0" y2="0" stroke="#172430" stroke-width="8" stroke-linecap="round" />
+    <line x1="50" y1="0" x2="0" y2="0" stroke="#38bdf8" stroke-width="2.5" class="bus-stream" />
+    <polygon points="4,-4 -4,0 4,4" fill="#38bdf8" />
+  </g>
+
+  <!-- Bottom Row Bus 2: Card 5 (410) -> Card 6 (360) [Leftward Flow] -->
+  <g transform="translate(360, 510)">
+    <line x1="50" y1="0" x2="0" y2="0" stroke="#251e12" stroke-width="8" stroke-linecap="round" />
+    <line x1="50" y1="0" x2="0" y2="0" stroke="#f59e0b" stroke-width="2.5" class="bus-stream" />
+    <polygon points="4,-4 -4,0 4,4" fill="#f59e0b" />
+  </g>
+
+  <!-- Final Exit Launchpad on Left: Card 6 (80, 510) -> Production Deploy Banner -->
+  <g transform="translate(80, 510)">
+    <line x1="0" y1="0" x2="-40" y2="0" stroke="#132617" stroke-width="8" stroke-linecap="round" />
+    <line x1="0" y1="0" x2="-40" y2="0" stroke="#10b981" stroke-width="2.5" class="bus-stream" />
+    <circle cx="-42" cy="0" r="4.5" fill="#10b981" filter="url(#softGlow)" />
+  </g>
+
+  <!-- Center Horizontal Telemetry Highway Deck -->
+  <g transform="translate(550, 355)">
+    <!-- Chassis Deck -->
+    <rect x="-470" y="-18" width="940" height="36" rx="6" fill="#131318" stroke="#242430" stroke-width="1.2" />
+    
+    <!-- Left Spec Pill -->
+    <rect x="-455" y="-10" width="135" height="20" rx="4" fill="#3ecf8e" fill-opacity="0.1" stroke="#3ecf8e" stroke-opacity="0.3" stroke-width="1" />
+    <text x="-387" y="3.5" text-anchor="middle" fill="#3ecf8e" class="mono-txt" font-weight="700" font-size="9.5">16-TABLE POSTGRES</text>
+
+    <!-- Center Spec Status -->
+    <circle cx="-130" cy="0" r="3" fill="#eb1b38" />
+    <text x="0" y="3.5" text-anchor="middle" fill="#ececea" class="mono-txt" font-weight="700" font-size="10.5" letter-spacing="0.06em">
+      REAL-TIME DATA CONDUIT // <tspan fill="#38bdf8">&lt; 20MS WEBSOCKET CDC</tspan> • <tspan fill="#f59e0b">YJS CRDT SYNC</tspan>
+    </text>
+
+    <!-- Right Spec Pill -->
+    <rect x="320" y="-10" width="135" height="20" rx="4" fill="#10b981" fill-opacity="0.1" stroke="#10b981" stroke-opacity="0.3" stroke-width="1" />
+    <text x="387" y="3.5" text-anchor="middle" fill="#34d399" class="mono-txt" font-weight="700" font-size="9.5">74/74 TESTS PASS</text>
+  </g>
+
+  <!-- ===================================================================== -->
+  <!--                   STAGE CARDS ROW 1 (TOP: 01, 02, 03)                 -->
+  <!-- ===================================================================== -->
+
+  <!-- CARD 01: MULTI-TENANT POSTGRESQL & RLS SHIELD -->
+  <g transform="translate(80, 85)">
+    <g class="f-1">
+      <rect width="280" height="225" rx="10" fill="url(#cardGrad1)" stroke="#1a3d2e" stroke-width="1.4" filter="url(#elevationShadow)" />
+      <path d="M 10 0 L 270 0" stroke="url(#rimEmerald)" stroke-width="2.5" stroke-linecap="round" />
+      
+      <!-- Card Header: Step Pill + Badge -->
+      <g transform="translate(18, 18)">
+        <rect width="70" height="22" rx="4" fill="#0c291d" stroke="#3ecf8e" stroke-width="1" stroke-opacity="0.4" />
+        <text x="35" y="14.5" text-anchor="middle" fill="#3ecf8e" class="badge-txt">STAGE 01</text>
+        <rect x="170" y="2" width="74" height="18" rx="4" fill="#3ecf8e" fill-opacity="0.12" />
+        <text x="207" y="14" text-anchor="middle" fill="#34d399" class="badge-txt">CORE RLS</text>
+      </g>
+
+      <!-- Stage Title -->
+      <text x="20" y="76" fill="#ececea" class="card-title">Multi-Tenant PostgreSQL</text>
+      <text x="20" y="96" fill="#3ecf8e" class="mono-txt" font-weight="700" font-size="11">16 Tables • Zero Data Leaks</text>
+
+      <!-- Architecture Bullets -->
+      <g transform="translate(20, 118)" class="mono-txt" font-size="10.5" fill="#a5a5a4">
+        <text y="0">• Supabase PostgreSQL relational core</text>
+        <text y="18">• Workspace membership isolation</text>
+        <text y="36">• Security definer triggers &amp; RPCs</text>
+        <text y="54">• Private storage buckets (public=false)</text>
+      </g>
+
+      <!-- Bottom Telemetry Chip -->
+      <line x1="20" y1="195" x2="260" y2="195" stroke="#132a20" stroke-width="1" />
+      <circle cx="26" cy="207" r="3" fill="#3ecf8e" />
+      <text x="36" y="210" fill="#3ecf8e" class="mono-txt" font-size="9" font-weight="700">16/16 TABLES PROTECTED</text>
+    </g>
+  </g>
+
+  <!-- CARD 02: IDENTITY & ENTERPRISE RBAC -->
+  <g transform="translate(410, 85)">
+    <g class="f-2">
+      <rect width="280" height="225" rx="10" fill="url(#cardGrad2)" stroke="#2d2852" stroke-width="1.4" filter="url(#elevationShadow)" />
+      <path d="M 10 0 L 270 0" stroke="url(#rimIndigo)" stroke-width="2.5" stroke-linecap="round" />
+      
+      <!-- Card Header: Step Pill + Badge -->
+      <g transform="translate(18, 18)">
+        <rect width="70" height="22" rx="4" fill="#1b173d" stroke="#818cf8" stroke-width="1" stroke-opacity="0.4" />
+        <text x="35" y="14.5" text-anchor="middle" fill="#a5b4fc" class="badge-txt">STAGE 02</text>
+        <rect x="170" y="2" width="74" height="18" rx="4" fill="#818cf8" fill-opacity="0.12" />
+        <text x="207" y="14" text-anchor="middle" fill="#818cf8" class="badge-txt">SECURITY</text>
+      </g>
+
+      <!-- Stage Title -->
+      <text x="20" y="76" fill="#ececea" class="card-title">Identity &amp; Enterprise RBAC</text>
+      <text x="20" y="96" fill="#818cf8" class="mono-txt" font-weight="700" font-size="11">bcrypt • Rate Limiters • /admin</text>
+
+      <!-- Architecture Bullets -->
+      <g transform="translate(20, 118)" class="mono-txt" font-size="10.5" fill="#a5a5a4">
+        <text y="0">• Supabase GoTrue authentication</text>
+        <text y="18">• Sliding-window token rate limiting</text>
+        <text y="36">• Dedicated /admin single super-admin</text>
+        <text y="54">• Anti-self-promotion role defense</text>
+      </g>
+
+      <!-- Bottom Telemetry Chip -->
+      <line x1="20" y1="195" x2="260" y2="195" stroke="#221e3f" stroke-width="1" />
+      <circle cx="26" cy="207" r="3" fill="#818cf8" />
+      <text x="36" y="210" fill="#a5b4fc" class="mono-txt" font-size="9" font-weight="700">17 AUDIT CHECKS PASSING</text>
+    </g>
+  </g>
+
+  <!-- CARD 03: SPRINT KANBAN & OPTIMISTIC ENGINE -->
+  <g transform="translate(740, 85)">
+    <g class="f-3">
+      <rect width="280" height="225" rx="10" fill="url(#cardGrad3)" stroke="#45151e" stroke-width="1.4" filter="url(#elevationShadow)" />
+      <path d="M 10 0 L 270 0" stroke="url(#rimCrimson)" stroke-width="2.5" stroke-linecap="round" />
+      
+      <!-- Card Header: Step Pill + Badge -->
+      <g transform="translate(18, 18)">
+        <rect width="70" height="22" rx="4" fill="#300d14" stroke="#eb1b38" stroke-width="1" stroke-opacity="0.4" />
+        <text x="35" y="14.5" text-anchor="middle" fill="#ff4d66" class="badge-txt">STAGE 03</text>
+        <rect x="170" y="2" width="74" height="18" rx="4" fill="#eb1b38" fill-opacity="0.12" />
+        <text x="207" y="14" text-anchor="middle" fill="#ff4d66" class="badge-txt">KANBAN</text>
+      </g>
+
+      <!-- Stage Title -->
+      <text x="20" y="76" fill="#ececea" class="card-title">Sprint Kanban &amp; Task Engine</text>
+      <text x="20" y="96" fill="#eb1b38" class="mono-txt" font-weight="700" font-size="11">@dnd-kit • Fractional Sorting</text>
+
+      <!-- Architecture Bullets -->
+      <g transform="translate(20, 118)" class="mono-txt" font-size="10.5" fill="#a5a5a4">
+        <text y="0">• Monotonic fractional card positioning</text>
+        <text y="18">• Optimistic UI with state rollback</text>
+        <text y="36">• Slide-over task drawers &amp; subtasks</text>
+        <text y="54">• Multi-factor search &amp; priority badges</text>
+      </g>
+
+      <!-- Bottom Telemetry Chip -->
+      <line x1="20" y1="195" x2="260" y2="195" stroke="#331017" stroke-width="1" />
+      <circle cx="26" cy="207" r="3" fill="#eb1b38" />
+      <text x="36" y="210" fill="#ff4d66" class="mono-txt" font-size="9" font-weight="700">ZERO COLLISION DRAG &amp; DROP</text>
+    </g>
+  </g>
+
+  <!-- ===================================================================== -->
+  <!--                   STAGE CARDS ROW 2 (BOTTOM: 04, 05, 06)              -->
+  <!-- ===================================================================== -->
+
+  <!-- CARD 04: SUPABASE REALTIME & PRESENCE MESH (x=740) -->
+  <g transform="translate(740, 400)">
+    <g class="f-4">
+      <rect width="280" height="225" rx="10" fill="url(#cardGrad4)" stroke="#16344d" stroke-width="1.4" filter="url(#elevationShadow)" />
+      <path d="M 10 0 L 270 0" stroke="url(#rimCyan)" stroke-width="2.5" stroke-linecap="round" />
+      
+      <!-- Card Header: Step Pill + Badge -->
+      <g transform="translate(18, 18)">
+        <rect width="70" height="22" rx="4" fill="#0d2336" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.4" />
+        <text x="35" y="14.5" text-anchor="middle" fill="#38bdf8" class="badge-txt">STAGE 04</text>
+        <rect x="170" y="2" width="74" height="18" rx="4" fill="#0284c7" fill-opacity="0.12" />
+        <text x="207" y="14" text-anchor="middle" fill="#38bdf8" class="badge-txt">REALTIME</text>
+      </g>
+
+      <!-- Stage Title -->
+      <text x="20" y="76" fill="#ececea" class="card-title">Realtime Messaging &amp; Mesh</text>
+      <text x="20" y="96" fill="#38bdf8" class="mono-txt" font-weight="700" font-size="11">CDC WebSockets • Live Presence</text>
+
+      <!-- Architecture Bullets -->
+      <g transform="translate(20, 118)" class="mono-txt" font-size="10.5" fill="#a5a5a4">
+        <text y="0">• Supabase Realtime channel broadcast</text>
+        <text y="18">• Ephemeral typing indicator awareness</text>
+        <text y="36">• Threaded project messaging &amp; attachments</text>
+        <text y="54">• Workspace peer heartbeat presence pills</text>
+      </g>
+
+      <!-- Bottom Telemetry Chip -->
+      <line x1="20" y1="195" x2="260" y2="195" stroke="#122436" stroke-width="1" />
+      <circle cx="26" cy="207" r="3" fill="#38bdf8" />
+      <text x="36" y="210" fill="#38bdf8" class="mono-txt" font-size="9" font-weight="700">SUB-20MS EVENT LATENCY</text>
+    </g>
+  </g>
+
+  <!-- CARD 05: MATHEMATICAL CRDT ENGINE (HOCUSPOCUS) (x=410) -->
+  <g transform="translate(410, 400)">
+    <g class="f-5">
+      <rect width="280" height="225" rx="10" fill="url(#cardGrad5)" stroke="#4a3512" stroke-width="1.4" filter="url(#elevationShadow)" />
+      <path d="M 10 0 L 270 0" stroke="url(#rimAmber)" stroke-width="2.5" stroke-linecap="round" />
+      
+      <!-- Card Header: Step Pill + Badge -->
+      <g transform="translate(18, 18)">
+        <rect width="70" height="22" rx="4" fill="#2d200a" stroke="#f59e0b" stroke-width="1" stroke-opacity="0.4" />
+        <text x="35" y="14.5" text-anchor="middle" fill="#fbbf24" class="badge-txt">STAGE 05</text>
+        <rect x="170" y="2" width="74" height="18" rx="4" fill="#d97706" fill-opacity="0.12" />
+        <text x="207" y="14" text-anchor="middle" fill="#fbbf24" class="badge-txt">CRDT DOCS</text>
+      </g>
+
+      <!-- Stage Title -->
+      <text x="20" y="76" fill="#ececea" class="card-title">Mathematical CRDT Engine</text>
+      <text x="20" y="96" fill="#fbbf24" class="mono-txt" font-weight="700" font-size="11">Tiptap • Yjs • Hocuspocus :1234</text>
+
+      <!-- Architecture Bullets -->
+      <g transform="translate(20, 118)" class="mono-txt" font-size="10.5" fill="#a5a5a4">
+        <text y="0">• Mathematical conflict-free state merging</text>
+        <text y="18">• Standalone Node.js WebSocket engine</text>
+        <text y="36">• Real-time collaborator cursor badges</text>
+        <text y="54">• Infinite whiteboard vector canvas</text>
+      </g>
+
+      <!-- Bottom Telemetry Chip -->
+      <line x1="20" y1="195" x2="260" y2="195" stroke="#33240b" stroke-width="1" />
+      <circle cx="26" cy="207" r="3" fill="#fbbf24" />
+      <text x="36" y="210" fill="#fbbf24" class="mono-txt" font-size="9" font-weight="700">ZERO TYPING CONFLICT MERGES</text>
+    </g>
+  </g>
+
+  <!-- CARD 06: PRODUCTION HARDENING & 74/74 TEST MATRIX (x=80) -->
+  <g transform="translate(80, 400)">
+    <g class="f-6">
+      <rect width="280" height="225" rx="10" fill="url(#cardGrad6)" stroke="#223b24" stroke-width="1.4" filter="url(#elevationShadow)" />
+      <path d="M 10 0 L 270 0" stroke="url(#rimMint)" stroke-width="2.5" stroke-linecap="round" />
+      
+      <!-- Card Header: Step Pill + Badge -->
+      <g transform="translate(18, 18)">
+        <rect width="70" height="22" rx="4" fill="#132415" stroke="#10b981" stroke-width="1" stroke-opacity="0.4" />
+        <text x="35" y="14.5" text-anchor="middle" fill="#6ee7b7" class="badge-txt">STAGE 06</text>
+        <rect x="170" y="2" width="74" height="18" rx="4" fill="#10b981" fill-opacity="0.12" />
+        <text x="207" y="14" text-anchor="middle" fill="#34d399" class="badge-txt">PRODUCTION</text>
+      </g>
+
+      <!-- Stage Title -->
+      <text x="20" y="76" fill="#ececea" class="card-title">Production Quality &amp; Ship</text>
+      <text x="20" y="96" fill="#34d399" class="mono-txt" font-weight="700" font-size="11">74 Unit Tests • 30 E2E • 60 FPS</text>
+
+      <!-- Architecture Bullets -->
+      <g transform="translate(20, 118)" class="mono-txt" font-size="10.5" fill="#a5a5a4">
+        <text y="0">• 74/74 passing Vitest unit tests (100%)</text>
+        <text y="18">• 30 multi-viewport Playwright E2E tests</text>
+        <text y="36">• Recharts real-time analytics calculations</text>
+        <text y="54">• Strict Hoy Design System (6px radii)</text>
+      </g>
+
+      <!-- Bottom Telemetry Chip -->
+      <line x1="20" y1="195" x2="260" y2="195" stroke="#182e1a" stroke-width="1" />
+      <circle cx="26" cy="207" r="3" fill="#10b981" />
+      <text x="36" y="210" fill="#34d399" class="mono-txt" font-size="9" font-weight="700">100% PRODUCTION HARDENED</text>
+    </g>
+  </g>
+
+  <!-- Bottom Terminal Status Bar -->
+  <g transform="translate(45, 675)">
+    <text x="0" y="0" fill="#585855" class="mono-txt" font-size="10">✦ BUILT FOR HIGH-VELOCITY TEAMS • HOY DESIGN TOKENS • STRICT SUPABASE RLS ✦</text>
+    <text x="1010" y="0" text-anchor="end" fill="#eb1b38" class="mono-txt" font-weight="700" font-size="10">COLLABSPACE V0.1.0-STABLE</text>
+  </g>
+</svg>

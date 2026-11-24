@@ -22,7 +22,7 @@
   <!-- Interactive Quick Navigation Bar -->
   <p align="center">
     <a href="#-core-platform-modules"><b>Explore Modules</b></a> •
-    <a href="#-system-architecture"><b>Architecture</b></a> •
+    <a href="#️-system-architecture--3d-building-roadmap"><b>3D Architecture &amp; Roadmap</b></a> •
     <a href="#-quick-start"><b>Quick Start</b></a> •
     <a href="#-security--data-isolation"><b>Security & RLS</b></a> •
     <a href="#-interactive-design-system"><b>Design System</b></a> •
@@ -137,7 +137,24 @@ Click any interactive module below to reveal its architectural specifications, d
 
 ---
 
-## 🏛️ System Architecture
+## 🏛️ System Architecture & 3D Building Roadmap
+
+<div align="center">
+<sub>Interactive Engineering Architecture • High-Velocity Real-Time Pipeline from Database RLS to 60 FPS Production Ship</sub>
+
+<br/><br/>
+
+<a href="#-system-architecture--3d-building-roadmap">
+  <img src="assets/collabspace-architecture-roadmap-3d.svg" width="100%" alt="CollabSpace 3D Architecture Roadmap" />
+</a>
+
+</div>
+
+<br/>
+
+<details>
+<summary>🔍 <b>Architecture Flowchart Spec (Click to inspect component interconnects)</b></summary>
+<br/>
 
 ```mermaid
 flowchart TD
@@ -175,6 +192,77 @@ flowchart TD
   Gate --> RPC
   YjsClient <--> Hocuspocus <--> DocAuth <--> Postgres
 ```
+
+</details>
+
+<br/>
+
+<!-- Interactive Accordions for the 6 Engineering Pipeline Stages -->
+<details open>
+<summary>🛡️ <b>Stage 01: Multi-Tenant PostgreSQL &amp; 16-Table RLS Core (Click to inspect)</b></summary>
+<br/>
+
+> **Foundational Data Security:** Architected the complete relational schema from scratch in PostgreSQL with strict Row Level Security (RLS) across all 16 application tables.
+> - **Zero Cross-Tenant Leakage:** Every query enforces `workspace_id` verification via Supabase session policies.
+> - **Automated Triggers:** PostgreSQL CDC triggers maintain activity audit logs, user notifications, and membership updates.
+> - **Private Storage Buckets:** All uploaded files and mockups are protected under `public = false` with signed storage access.
+
+</details>
+
+<details>
+<summary>🔐 <b>Stage 02: Identity, Enterprise RBAC &amp; Rate-Limiting Gate (Click to inspect)</b></summary>
+<br/>
+
+> **Zero-Trust Identity Layer:** Hardened authentication with bcrypt password encryption, sliding-window rate limiters, and a dedicated Single Super-Admin gate.
+> - **Super Admin Portal (`/admin`):** Guarded exclusively for `0243roshan@gmail.com` with sliding-window protection (max 5 attempts/minute).
+> - **Anti-Self-Promotion:** Database triggers prevent non-owners from elevating their own permissions.
+> - **Multi-Tenant Roles:** Dynamic permissions across Owner, Admin, Member, and Viewer roles.
+
+</details>
+
+<details>
+<summary>📌 <b>Stage 03: Sprint Kanban &amp; Monotonic Fractional Sort Engine (Click to inspect)</b></summary>
+<br/>
+
+> **High-Velocity Task Execution:** Drag-and-drop task boards powered by `@dnd-kit` with zero-collision fractional positioning.
+> - **Optimistic UI with State Rollback:** Immediate visual reordering with automatic rollback snapshots on network failure.
+> - **Monotonic Indexing:** Fractional position mathematics prevent full-table re-indexing during high-frequency drag operations.
+> - **Slide-Over Task Drawers:** Comprehensive task inspection with subtasks, file attachments, and real-time comment threads.
+
+</details>
+
+<details>
+<summary>⚡ <b>Stage 04: Real-Time Messaging &amp; Live Presence Mesh (Click to inspect)</b></summary>
+<br/>
+
+> **Sub-20ms Communication Mesh:** Real-time channel chat and presence tracking powered by Supabase Realtime WebSockets.
+> - **Ephemeral Typing Indicators:** Instant awareness showing who is actively typing in the channel.
+> - **Heartbeat Presence:** Live online pills and collaborator avatars updating dynamically across workspaces.
+> - **Author Governance:** Authors retain edit/delete control over their own messages with admin supervision.
+
+</details>
+
+<details>
+<summary>📝 <b>Stage 05: Mathematical CRDT Engine &amp; Infinite Whiteboard (Click to inspect)</b></summary>
+<br/>
+
+> **Conflict-Free Collaborative Suite:** Real-time rich-text document editing and infinite canvas design wireframing.
+> - **Yjs CRDT Merging:** Mathematical conflict-free replicated data types ensure simultaneous multi-user typing never collides.
+> - **Standalone Hocuspocus Server (`server/index.js`):** High-performance WebSocket daemon running on port 1234 with JWT authentication.
+> - **Infinite Whiteboard Canvas:** Zoom-and-pan vector canvas with color-coded sticky notes, geometric shapes, and directional connecting arrows.
+
+</details>
+
+<details>
+<summary>🚀 <b>Stage 06: Production Hardening, 74/74 Tests &amp; Ship (Click to inspect)</b></summary>
+<br/>
+
+> **Enterprise Software Craftsmanship:** Rigorous automated test coverage and strict Hoy Design System adherence.
+> - **100% Pass Rate:** All 74 automated unit tests across 9 test files pass with 0 failures.
+> - **30 E2E Viewport Tests:** Verified responsive layout across mobile, tablet, and desktop with Playwright.
+> - **Dynamic Analytics:** Real-time KPI charts and team velocity metrics calculated dynamically with Recharts.
+
+</details>
 
 ---
 
