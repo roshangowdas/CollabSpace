@@ -15,6 +15,7 @@
     <a href="#tech-stack"><img src="https://img.shields.io/badge/Frontend-React_18_%2B_Vite-06b6d4?style=for-the-badge&logo=react&logoColor=white" alt="React Vite" /></a>
     <a href="#database--real-time-infrastructure"><img src="https://img.shields.io/badge/Backend-Supabase_PostgreSQL-3ecf8e?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase" /></a>
     <a href="#design-system"><img src="https://img.shields.io/badge/Design_System-Hoy_Tokens-191918?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Hoy Design System" /></a>
+    <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/Contributions-Welcome-brightgreen?style=for-the-badge&logo=github&logoColor=white" alt="Contributions Welcome" /></a>
     <img src="https://img.shields.io/badge/License-MIT-f59e0b?style=for-the-badge" alt="License" />
   </p>
 
@@ -25,7 +26,8 @@
     <a href="#-quick-start"><b>Quick Start</b></a> •
     <a href="#-security--data-isolation"><b>Security & RLS</b></a> •
     <a href="#-interactive-design-system"><b>Design System</b></a> •
-    <a href="#-verification--testing"><b>Test Matrix</b></a>
+    <a href="#-verification--testing"><b>Test Matrix</b></a> •
+    <a href="#-contributing"><b>Contributing</b></a>
   </p>
 
 </div>
@@ -355,6 +357,30 @@ Test Files  9 passed (9)
 | `/analytics` | Dynamic KPI Charts & Member Workloads | **Protected** |
 | `/settings` | User Profile & Security Configuration | **Protected** |
 | `/privacy`, `/terms` | Legal Policies & DPDP Act Compliance | **Public** |
+
+---
+
+## 🤝 Contributing to CollabSpace
+
+CollabSpace is completely **open source**! We warmly welcome contributors from all backgrounds and experience levels to help build the modern operating system for real-time teams.
+
+### Ways to Get Involved:
+- 🐛 **Report Bugs**: Discover a glitch or edge-case? Open a [Bug Report](https://github.com/roshangowdas/CollabSpace/issues/new?template=bug_report.md).
+- 💡 **Propose Features**: Have an idea for Kanban, CRDT Docs, Whiteboards, or Chat? Submit a [Feature Request](https://github.com/roshangowdas/CollabSpace/issues/new?template=feature_request.md).
+- 🛠️ **Solve Open Issues**: Check out issues labeled `good first issue` or `help wanted`, comment to claim them, code your fix, and submit a Pull Request.
+- 📖 **Improve Documentation**: Help clarify setup instructions, code comments, or architecture diagrams.
+
+```bash
+# Quick Contributor Workflow:
+1. git clone https://github.com/<YOUR_USERNAME>/CollabSpace.git
+2. npm install
+3. cp .env.example .env     # Add your Supabase credentials
+4. npm run dev             # Frontend on localhost:5173
+5. npm test                # Verify all 74 unit tests pass
+```
+
+> 📘 **Detailed Contributing Guide**:  
+> Please read our full [**CONTRIBUTING.md**](CONTRIBUTING.md) (or [**contribute.md**](contribute.md)) for code style conventions, Hoy Design System tokens, Supabase Row-Level Security (RLS) standards, and PR checklists.
 
 ---
 
