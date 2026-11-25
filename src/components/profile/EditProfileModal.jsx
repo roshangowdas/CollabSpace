@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Check, Loader2, AlertCircle, Save, AtSign, Sparkles } from 'lucide-react'
+import { Check, Loader2, AlertCircle, Save, AtSign, Sparkles, Briefcase } from 'lucide-react'
 import { toast } from 'sonner'
 import { Modal, ModalFooter } from '@/components/ui/Modal'
 import { Button } from '@/components/ui/Button'
@@ -27,6 +27,7 @@ export function EditProfileModal({ isOpen, onClose, onOpenAvatarModal }) {
     user?.user_metadata?.username ||
     user?.email?.split('@')[0]?.toLowerCase().replace(/[^a-z0-9_]/g, '') ||
     'user'
+  const currentJobTitle = profile?.job_title || user?.user_metadata?.job_title || ''
   const currentBio = profile?.bio || user?.user_metadata?.bio || ''
   const currentAvatarUrl = profile?.avatar_url || user?.user_metadata?.avatar_url || ''
 
@@ -43,6 +44,7 @@ export function EditProfileModal({ isOpen, onClose, onOpenAvatarModal }) {
     defaultValues: {
       fullName: currentFullName,
       username: currentUsername,
+      jobTitle: currentJobTitle,
       bio: currentBio,
       avatarUrl: currentAvatarUrl,
     },
@@ -54,12 +56,13 @@ export function EditProfileModal({ isOpen, onClose, onOpenAvatarModal }) {
       reset({
         fullName: currentFullName,
         username: currentUsername,
+        jobTitle: currentJobTitle,
         bio: currentBio,
         avatarUrl: currentAvatarUrl,
       })
       setUsernameStatus({ checking: false, available: true, message: '' })
     }
-  }, [isOpen, currentFullName, currentUsername, currentBio, currentAvatarUrl, reset])
+  }, [isOpen, currentFullName, currentUsername, currentJobTitle, currentBio, currentAvatarUrl, reset])
 
   const watchedUsername = watch('username', currentUsername)
   const watchedBio = watch('bio', currentBio)
@@ -135,6 +138,7 @@ export function EditProfileModal({ isOpen, onClose, onOpenAvatarModal }) {
       await updateProfile({
         fullName: values.fullName.trim(),
         username: values.username.trim().toLowerCase(),
+        jobTitle: values.jobTitle?.trim() || '',
         bio: values.bio?.trim() || '',
         avatarUrl: currentAvatarUrl,
       })
@@ -237,6 +241,26 @@ export function EditProfileModal({ isOpen, onClose, onOpenAvatarModal }) {
           </div>
           <p className="text-[11px] text-muted-foreground">
             Your unique handle used for @mentions in tasks, docs, and channels.
+          </p>
+        </div>
+
+        {/* Job Title */}
+        <div className="space-y-1.5">
+          <Label htmlFor="edit-jobTitle">Job Title</Label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-muted-foreground">
+              <Briefcase className="h-4 w-4" />
+            </div>
+            <Input
+              id="edit-jobTitle"
+              className="pl-9 text-xs"
+              placeholder="e.g. Senior Full-Stack Engineer"
+              error={errors.jobTitle?.message}
+              {...register('jobTitle')}
+            />
+          </div>
+          <p className="text-[11px] text-muted-foreground">
+            Your professional role or title displayed across your team workspace.
           </p>
         </div>
 

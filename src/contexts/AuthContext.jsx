@@ -36,7 +36,10 @@ export function AuthProvider({ children }) {
     try {
       const data = await getProfile(currentUser.id)
       if (data) {
-        setProfile(data)
+        setProfile({
+          ...data,
+          job_title: data.job_title || currentUser.user_metadata?.job_title || '',
+        })
       } else {
         // Fallback to user metadata if database row has not yet propagated
         const defaultUsername =
@@ -53,6 +56,7 @@ export function AuthProvider({ children }) {
             'User',
           username: defaultUsername,
           avatar_url: currentUser.user_metadata?.avatar_url || '',
+          job_title: currentUser.user_metadata?.job_title || '',
           bio: currentUser.user_metadata?.bio || '',
           role: 'Member',
           created_at: currentUser.created_at || new Date().toISOString(),
@@ -70,6 +74,7 @@ export function AuthProvider({ children }) {
           'User',
         username: currentUser.email?.split('@')[0]?.toLowerCase().replace(/[^a-z0-9_]/g, '') || 'user',
         avatar_url: currentUser.user_metadata?.avatar_url || '',
+        job_title: currentUser.user_metadata?.job_title || '',
         bio: '',
         role: 'Member',
         created_at: currentUser.created_at || new Date().toISOString(),

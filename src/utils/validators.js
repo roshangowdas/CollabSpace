@@ -133,6 +133,11 @@ export const profileSchema = z.object({
     .min(2, 'Name must be at least 2 characters')
     .max(60, 'Name must not exceed 60 characters'),
   username: usernameSchema,
+  jobTitle: z
+    .string()
+    .max(80, 'Job title must not exceed 80 characters')
+    .optional()
+    .or(z.literal('')),
   bio: z
     .string()
     .max(300, 'Bio must not exceed 300 characters')

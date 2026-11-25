@@ -25,18 +25,26 @@ export async function getProfile(userId) {
   }
 
   try {
-    const { data, error } = await supabase
+    let res = await supabase
       .from('profiles')
-      .select('id, full_name, username, avatar_url, bio, role, created_at, updated_at')
+      .select('id, full_name, username, avatar_url, bio, role, job_title, created_at, updated_at')
       .eq('id', userId)
       .maybeSingle()
 
-    if (error) {
-      console.warn('[CollabSpace Profiles] Profile fetch error:', error.message)
+    if (res.error && (res.error.code === '42703' || res.error.message?.includes('job_title'))) {
+      res = await supabase
+        .from('profiles')
+        .select('id, full_name, username, avatar_url, bio, role, created_at, updated_at')
+        .eq('id', userId)
+        .maybeSingle()
+    }
+
+    if (res.error) {
+      console.warn('[CollabSpace Profiles] Profile fetch error:', res.error.message)
       return null
     }
 
-    return data
+    return res.data
   } catch (err) {
     console.warn('[CollabSpace Profiles] Profile fetch exception:', err.message)
     return null
@@ -158,12 +166,13 @@ export async function checkUsernameAvailability(username, currentUserId = null) 
  * @param {{
  *   fullName?: string,
  *   username?: string,
+ *   jobTitle?: string,
  *   bio?: string,
  *   avatarUrl?: string
  * }} updates
  * @returns {Promise<object>}
  */
-export async function updateProfile(userId, { fullName, username, bio, avatarUrl }) {
+export async function updateProfile(userId, { fullName, username, jobTitle, bio, avatarUrl }) {
   if (!isSupabaseConfigured || !userId) {
     throw new Error('Supabase credentials are not configured in .env.')
   }
@@ -183,22 +192,43 @@ export async function updateProfile(userId, { fullName, username, bio, avatarUrl
 
     if (fullName !== undefined) payload.full_name = fullName.trim()
     if (username !== undefined) payload.username = username.trim().toLowerCase()
+    if (jobTitle !== undefined) payload.job_title = jobTitle.trim()
     if (bio !== undefined) payload.bio = bio.trim()
     if (avatarUrl !== undefined) payload.avatar_url = avatarUrl ? avatarUrl.trim() : null
 
-    const { data, error } = await supabase
-      .from('profiles')
-      .update(payload)
-      .eq('id', userId)
-      .select('id, full_name, username, avatar_url, bio, role, created_at, updated_at')
-      .single()
+    let data = null
+    try {
+      const { data: updated, error } = await supabase
+        .from('profiles')
+        .update(payload)
+        .eq('id', userId)
+        .select('id, full_name, username, avatar_url, bio, role, job_title, created_at, updated_at')
+        .single()
 
-    if (error) throw error
+      if (error) throw error
+      data = updated
+    } catch (dbErr) {
+      // If job_title column is not yet present on remote DB, fallback to update without job_title in profiles
+      if (dbErr.code === '42703' || dbErr.message?.includes('job_title')) {
+        delete payload.job_title
+        const { data: fallbackUpdated, error: fallbackError } = await supabase
+          .from('profiles')
+          .update(payload)
+          .eq('id', userId)
+          .select('id, full_name, username, avatar_url, bio, role, created_at, updated_at')
+          .single()
+        if (fallbackError) throw fallbackError
+        data = { ...fallbackUpdated, job_title: jobTitle ? jobTitle.trim() : '' }
+      } else {
+        throw dbErr
+      }
+    }
 
     // Sync auth user_metadata
     const metaUpdates = {}
     if (fullName !== undefined) metaUpdates.full_name = fullName.trim()
     if (username !== undefined) metaUpdates.username = username.trim().toLowerCase()
+    if (jobTitle !== undefined) metaUpdates.job_title = jobTitle.trim()
     if (bio !== undefined) metaUpdates.bio = bio.trim()
     if (avatarUrl !== undefined) metaUpdates.avatar_url = avatarUrl ? avatarUrl.trim() : null
 
@@ -212,6 +242,79 @@ export async function updateProfile(userId, { fullName, username, bio, avatarUrl
   } catch (err) {
     const parsed = handleDatabaseError(err)
     throw new Error(parsed.message)
+  }
+}
+
+/**
+ * Fetches actual work statistics for a user from Supabase.
+ * - Total workspaces joined (from public.workspace_members)
+ * - Total projects involved in (from public.project_members)
+ * - Tasks assigned to the user (from public.tasks where assignee_id = userId)
+ * - Tasks completed by the user (from public.tasks where assignee_id = userId and status in ('completed', 'done'))
+ *
+ * @param {string} userId
+ * @returns {Promise<{
+ *   workspacesCount: number,
+ *   projectsCount: number,
+ *   assignedTasksCount: number,
+ *   completedTasksCount: number
+ * }>}
+ */
+export async function getUserProfileStats(userId) {
+  if (!isSupabaseConfigured || !userId) {
+    return {
+      workspacesCount: 0,
+      projectsCount: 0,
+      assignedTasksCount: 0,
+      completedTasksCount: 0,
+    }
+  }
+
+  try {
+    const [
+      { count: workspacesCount, error: wsError },
+      { count: projectsCount, error: projError },
+      { count: assignedTasksCount, error: assignedError },
+      { count: completedTasksCount, error: completedError },
+    ] = await Promise.all([
+      supabase
+        .from('workspace_members')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', userId),
+      supabase
+        .from('project_members')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', userId),
+      supabase
+        .from('tasks')
+        .select('*', { count: 'exact', head: true })
+        .eq('assignee_id', userId),
+      supabase
+        .from('tasks')
+        .select('*', { count: 'exact', head: true })
+        .eq('assignee_id', userId)
+        .in('status', ['completed', 'done']),
+    ])
+
+    if (wsError) console.warn('[CollabSpace Profiles] Workspaces count error:', wsError.message)
+    if (projError) console.warn('[CollabSpace Profiles] Projects count error:', projError.message)
+    if (assignedError) console.warn('[CollabSpace Profiles] Assigned tasks error:', assignedError.message)
+    if (completedError) console.warn('[CollabSpace Profiles] Completed tasks error:', completedError.message)
+
+    return {
+      workspacesCount: workspacesCount ?? 0,
+      projectsCount: projectsCount ?? 0,
+      assignedTasksCount: assignedTasksCount ?? 0,
+      completedTasksCount: completedTasksCount ?? 0,
+    }
+  } catch (err) {
+    console.warn('[CollabSpace Profiles] Stats fetch exception:', err.message)
+    return {
+      workspacesCount: 0,
+      projectsCount: 0,
+      assignedTasksCount: 0,
+      completedTasksCount: 0,
+    }
   }
 }
 
