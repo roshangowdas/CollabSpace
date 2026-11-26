@@ -1,0 +1,408 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 720" width="100%" height="100%">
+  <defs>
+    <!-- Background Grid Pattern -->
+    <pattern id="isoGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+      <path d="M 36 0 L 0 0 0 36" fill="none" stroke="#22222a" stroke-width="0.7" stroke-opacity="0.6" />
+      <circle cx="36" cy="36" r="1.2" fill="#eb1b38" fill-opacity="0.25" />
+    </pattern>
+
+    <!-- Card Background Gradients with Hoy Obsidian Undertones -->
+    <linearGradient id="cardGrad1" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#141824" />
+      <stop offset="50%" stop-color="#0a0d16" />
+      <stop offset="100%" stop-color="#05070c" />
+    </linearGradient>
+    <linearGradient id="cardGrad2" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#1b1226" />
+      <stop offset="50%" stop-color="#0f0917" />
+      <stop offset="100%" stop-color="#06030a" />
+    </linearGradient>
+    <linearGradient id="cardGrad3" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#24140c" />
+      <stop offset="50%" stop-color="#140a05" />
+      <stop offset="100%" stop-color="#0a0502" />
+    </linearGradient>
+    <linearGradient id="cardGrad4" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#0c201e" />
+      <stop offset="50%" stop-color="#061211" />
+      <stop offset="100%" stop-color="#030807" />
+    </linearGradient>
+    <linearGradient id="cardGrad5" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#260b14" />
+      <stop offset="50%" stop-color="#14050a" />
+      <stop offset="100%" stop-color="#080204" />
+    </linearGradient>
+    <linearGradient id="cardGrad6" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#112415" />
+      <stop offset="50%" stop-color="#08140b" />
+      <stop offset="100%" stop-color="#030904" />
+    </linearGradient>
+
+    <!-- 3D Bevel Top Rim Highlights -->
+    <linearGradient id="rimCyan" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.95" />
+      <stop offset="50%" stop-color="#0284c7" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#0369a1" stop-opacity="0.1" />
+    </linearGradient>
+    <linearGradient id="rimPurple" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#c084fc" stop-opacity="0.95" />
+      <stop offset="50%" stop-color="#9333ea" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#581c87" stop-opacity="0.1" />
+    </linearGradient>
+    <linearGradient id="rimAmber" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.95" />
+      <stop offset="50%" stop-color="#d97706" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#78350f" stop-opacity="0.1" />
+    </linearGradient>
+    <linearGradient id="rimTeal" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2dd4bf" stop-opacity="0.95" />
+      <stop offset="50%" stop-color="#0d9488" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#115e59" stop-opacity="0.1" />
+    </linearGradient>
+    <linearGradient id="rimCrimson" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ff4d66" stop-opacity="0.95" />
+      <stop offset="50%" stop-color="#eb1b38" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#800b1a" stop-opacity="0.1" />
+    </linearGradient>
+    <linearGradient id="rimEmerald" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#34d399" stop-opacity="0.95" />
+      <stop offset="50%" stop-color="#10b981" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#064e3b" stop-opacity="0.1" />
+    </linearGradient>
+
+    <!-- Card Elevation Shadow -->
+    <filter id="elevationShadow" x="-15%" y="-15%" width="130%" height="135%">
+      <feDropShadow dx="0" dy="16" stdDeviation="14" flood-color="#000000" flood-opacity="0.9" />
+    </filter>
+
+    <!-- Ambient Glow Filter -->
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <style>
+    @keyframes pulseDash {
+      to { stroke-dashoffset: -32; }
+    }
+    @keyframes float1 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    @keyframes float2 { 0%, 100% { transform: translateY(-4px); } 50% { transform: translateY(2px); } }
+    @keyframes float3 { 0%, 100% { transform: translateY(2px); } 50% { transform: translateY(-4px); } }
+    @keyframes float4 { 0%, 100% { transform: translateY(-5px); } 50% { transform: translateY(2px); } }
+    @keyframes float5 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    @keyframes float6 { 0%, 100% { transform: translateY(-3px); } 50% { transform: translateY(3px); } }
+
+    .f-1 { animation: float1 5.2s ease-in-out infinite; }
+    .f-2 { animation: float2 4.8s ease-in-out infinite 0.7s; }
+    .f-3 { animation: float3 5.4s ease-in-out infinite 1.4s; }
+    .f-4 { animation: float4 5.0s ease-in-out infinite 2.1s; }
+    .f-5 { animation: float5 4.6s ease-in-out infinite 2.8s; }
+    .f-6 { animation: float6 5.3s ease-in-out infinite 3.5s; }
+
+    .bus-stream {
+      stroke-dasharray: 6 10;
+      animation: pulseDash 1.4s linear infinite;
+    }
+    .hud-title { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif; font-weight: 900; }
+    .card-title { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif; font-weight: 800; font-size: 16px; }
+    .mono-txt { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+    .badge-txt { font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 9px; letter-spacing: 0.08em; }
+  </style>
+
+  <!-- Deep Obsidian Canvas Background -->
+  <rect x="0" y="0" width="1100" height="720" fill="#0d0d11" rx="14" stroke="#23232c" stroke-width="1.5" />
+  <rect x="0" y="0" width="1100" height="720" fill="url(#isoGrid)" rx="14" />
+
+  <!-- Top Tactical HUD Bar -->
+  <g transform="translate(45, 40)">
+    <circle cx="8" cy="8" r="4" fill="#38bdf8" filter="url(#softGlow)" />
+    <circle cx="8" cy="8" r="2" fill="#ffffff" />
+    <text x="24" y="12" fill="#ececea" class="hud-title" font-size="12.5" letter-spacing="0.1em">COLLABSPACE // 3D OPEN-SOURCE CONTRIBUTOR HIGHWAY</text>
+    
+    <!-- Right Telemetry Readout -->
+    <rect x="720" y="-3" width="290" height="22" rx="4" fill="#15151c" stroke="#282834" stroke-width="1" />
+    <text x="730" y="12" fill="#38bdf8" class="mono-txt" font-weight="700" font-size="10">● PIPELINE: PRs WELCOME</text>
+    <text x="890" y="12" fill="#a5a5a4" class="mono-txt" font-size="10">ALL SKILL TIERS</text>
+  </g>
+
+  <!-- ===================================================================== -->
+  <!--               HIGHWAY INTERCONNECT CIRCUIT BUS (VISIBLE CORRIDORS)    -->
+  <!-- ===================================================================== -->
+
+  <!-- Top Row Bus 1: Card 1 (360) -> Card 2 (410) -->
+  <g transform="translate(360, 195)">
+    <line x1="0" y1="0" x2="50" y2="0" stroke="#16232e" stroke-width="8" stroke-linecap="round" />
+    <line x1="0" y1="0" x2="50" y2="0" stroke="#38bdf8" stroke-width="2.5" class="bus-stream" />
+    <polygon points="46,-4 54,0 46,4" fill="#38bdf8" />
+  </g>
+
+  <!-- Top Row Bus 2: Card 2 (690) -> Card 3 (740) -->
+  <g transform="translate(690, 195)">
+    <line x1="0" y1="0" x2="50" y2="0" stroke="#261b33" stroke-width="8" stroke-linecap="round" />
+    <line x1="0" y1="0" x2="50" y2="0" stroke="#c084fc" stroke-width="2.5" class="bus-stream" />
+    <polygon points="46,-4 54,0 46,4" fill="#c084fc" />
+  </g>
+
+  <!-- Sweeping Highway Loop on Right: Card 3 (1020, 195) -> Card 4 (1020, 515) -->
+  <g>
+    <!-- Glow Underlay -->
+    <path d="M 1020 195 C 1080 195 1080 515 1020 515" fill="none" stroke="#fbbf24" stroke-opacity="0.25" stroke-width="12" filter="url(#softGlow)" />
+    <!-- Dark Bed -->
+    <path d="M 1020 195 C 1080 195 1080 515 1020 515" fill="none" stroke="#21190f" stroke-width="6" stroke-linecap="round" />
+    <!-- Animated Light Pulse -->
+    <path d="M 1020 195 C 1080 195 1080 515 1020 515" fill="none" stroke="#fbbf24" stroke-width="2.5" class="bus-stream" stroke-linecap="round" />
+    
+    <!-- Waypoint Node Marker on Apex -->
+    <circle cx="1065" cy="355" r="9" fill="#140e04" stroke="#fbbf24" stroke-width="1.5" />
+    <circle cx="1065" cy="355" r="3.5" fill="#fde68a" />
+    <text x="1055" y="328" text-anchor="end" fill="#fbbf24" class="mono-txt" font-size="8.5" font-weight="700">CODE FLOW</text>
+  </g>
+
+  <!-- Bottom Row Bus 1: Card 4 (740) -> Card 5 (690) [Leftward Flow] -->
+  <g transform="translate(690, 515)">
+    <line x1="50" y1="0" x2="0" y2="0" stroke="#142624" stroke-width="8" stroke-linecap="round" />
+    <line x1="50" y1="0" x2="0" y2="0" stroke="#2dd4bf" stroke-width="2.5" class="bus-stream" />
+    <polygon points="4,-4 -4,0 4,4" fill="#2dd4bf" />
+  </g>
+
+  <!-- Bottom Row Bus 2: Card 5 (410) -> Card 6 (360) [Leftward Flow] -->
+  <g transform="translate(360, 515)">
+    <line x1="50" y1="0" x2="0" y2="0" stroke="#331018" stroke-width="8" stroke-linecap="round" />
+    <line x1="50" y1="0" x2="0" y2="0" stroke="#eb1b38" stroke-width="2.5" class="bus-stream" />
+    <polygon points="4,-4 -4,0 4,4" fill="#eb1b38" />
+  </g>
+
+  <!-- Final Exit Launchpad on Left: Card 6 (80, 515) -> Contributor Hall of Fame -->
+  <g transform="translate(80, 515)">
+    <line x1="0" y1="0" x2="-40" y2="0" stroke="#132617" stroke-width="8" stroke-linecap="round" />
+    <line x1="0" y1="0" x2="-40" y2="0" stroke="#10b981" stroke-width="2.5" class="bus-stream" />
+    <circle cx="-42" cy="0" r="4.5" fill="#10b981" filter="url(#softGlow)" />
+  </g>
+
+  <!-- Center Horizontal Telemetry Highway Deck -->
+  <g transform="translate(550, 355)">
+    <!-- Chassis Deck -->
+    <rect x="-470" y="-18" width="940" height="36" rx="6" fill="#131318" stroke="#242430" stroke-width="1.2" />
+    
+    <!-- Left Spec Pill -->
+    <rect x="-455" y="-10" width="135" height="20" rx="4" fill="#38bdf8" fill-opacity="0.1" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1" />
+    <text x="-387" y="3.5" text-anchor="middle" fill="#38bdf8" class="mono-txt" font-weight="700" font-size="9.5">ISSUES &amp; TICKET CLAIM</text>
+
+    <!-- Center Spec Status -->
+    <circle cx="-130" cy="0" r="3" fill="#eb1b38" />
+    <text x="0" y="3.5" text-anchor="middle" fill="#ececea" class="mono-txt" font-weight="700" font-size="10.5" letter-spacing="0.06em">
+      COMMUNITY CONTRIBUTOR CONDUIT // <tspan fill="#c084fc">LOCAL SANDBOX</tspan> • <tspan fill="#34d399">74/74 VITEST PASS</tspan> • <tspan fill="#ff4d66">SQUASH MERGE</tspan>
+    </text>
+
+    <!-- Right Spec Pill -->
+    <rect x="320" y="-10" width="135" height="20" rx="4" fill="#10b981" fill-opacity="0.1" stroke="#10b981" stroke-opacity="0.3" stroke-width="1" />
+    <text x="387" y="3.5" text-anchor="middle" fill="#34d399" class="mono-txt" font-weight="700" font-size="9.5">CONTRIBUTOR SHIP</text>
+  </g>
+
+  <!-- ===================================================================== -->
+  <!--                   STAGE CARDS ROW 1 (TOP: 01, 02, 03)                 -->
+  <!-- ===================================================================== -->
+
+  <!-- CARD 01: SCOUT & CLAIM -->
+  <g transform="translate(80, 85)">
+    <g class="f-1">
+      <rect width="280" height="225" rx="10" fill="url(#cardGrad1)" stroke="#1a2e3f" stroke-width="1.4" filter="url(#elevationShadow)" />
+      <path d="M 10 0 L 270 0" stroke="url(#rimCyan)" stroke-width="2.5" stroke-linecap="round" />
+      
+      <!-- Card Header: Step Pill + Badge -->
+      <g transform="translate(18, 18)">
+        <rect width="70" height="22" rx="4" fill="#0d2230" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.4" />
+        <text x="35" y="14.5" text-anchor="middle" fill="#38bdf8" class="badge-txt">STEP 01</text>
+        <rect x="170" y="2" width="74" height="18" rx="4" fill="#38bdf8" fill-opacity="0.12" />
+        <text x="207" y="14" text-anchor="middle" fill="#7dd3fc" class="badge-txt">SCOUT</text>
+      </g>
+
+      <!-- Stage Title -->
+      <text x="20" y="76" fill="#ececea" class="card-title">Scout &amp; Claim Issue</text>
+      <text x="20" y="96" fill="#38bdf8" class="mono-txt" font-weight="700" font-size="11">good first issue • GitHub Issues</text>
+
+      <!-- Architecture Bullets -->
+      <g transform="translate(20, 118)" class="mono-txt" font-size="10.5" fill="#a5a5a4">
+        <text y="0">• Browse open tickets or bug reports</text>
+        <text y="18">• Filter by 'help wanted' or 'bug'</text>
+        <text y="36">• Comment: "I'd like to work on this!"</text>
+        <text y="54">• Maintainer assigns ticket to you</text>
+      </g>
+
+      <!-- Bottom Telemetry Chip -->
+      <line x1="20" y1="195" x2="260" y2="195" stroke="#152736" stroke-width="1" />
+      <circle cx="26" cy="207" r="3" fill="#38bdf8" />
+      <text x="36" y="210" fill="#38bdf8" class="mono-txt" font-size="9" font-weight="700">COMMUNITY TRIAGE READY</text>
+    </g>
+  </g>
+
+  <!-- CARD 02: FORK & SANDBOX -->
+  <g transform="translate(410, 85)">
+    <g class="f-2">
+      <rect width="280" height="225" rx="10" fill="url(#cardGrad2)" stroke="#372252" stroke-width="1.4" filter="url(#elevationShadow)" />
+      <path d="M 10 0 L 270 0" stroke="url(#rimPurple)" stroke-width="2.5" stroke-linecap="round" />
+      
+      <!-- Card Header: Step Pill + Badge -->
+      <g transform="translate(18, 18)">
+        <rect width="70" height="22" rx="4" fill="#241438" stroke="#c084fc" stroke-width="1" stroke-opacity="0.4" />
+        <text x="35" y="14.5" text-anchor="middle" fill="#c084fc" class="badge-txt">STEP 02</text>
+        <rect x="170" y="2" width="74" height="18" rx="4" fill="#c084fc" fill-opacity="0.12" />
+        <text x="207" y="14" text-anchor="middle" fill="#e9d5ff" class="badge-txt">SANDBOX</text>
+      </g>
+
+      <!-- Stage Title -->
+      <text x="20" y="76" fill="#ececea" class="card-title">Fork &amp; Local Setup</text>
+      <text x="20" y="96" fill="#c084fc" class="mono-txt" font-weight="700" font-size="11">Git Upstream • .env • Supabase</text>
+
+      <!-- Architecture Bullets -->
+      <g transform="translate(20, 118)" class="mono-txt" font-size="10.5" fill="#a5a5a4">
+        <text y="0">• Fork on GitHub &amp; git clone</text>
+        <text y="18">• git remote add upstream &lt;repo&gt;</text>
+        <text y="36">• cp .env.example .env (Supabase)</text>
+        <text y="54">• npm install &amp; npm run dev (:5173)</text>
+      </g>
+
+      <!-- Bottom Telemetry Chip -->
+      <line x1="20" y1="195" x2="260" y2="195" stroke="#29163e" stroke-width="1" />
+      <circle cx="26" cy="207" r="3" fill="#c084fc" />
+      <text x="36" y="210" fill="#e9d5ff" class="mono-txt" font-size="9" font-weight="700">SECURE LOCAL SANDBOX</text>
+    </g>
+  </g>
+
+  <!-- CARD 03: MODULAR DEVELOPMENT -->
+  <g transform="translate(740, 85)">
+    <g class="f-3">
+      <rect width="280" height="225" rx="10" fill="url(#cardGrad3)" stroke="#4d2c14" stroke-width="1.4" filter="url(#elevationShadow)" />
+      <path d="M 10 0 L 270 0" stroke="url(#rimAmber)" stroke-width="2.5" stroke-linecap="round" />
+      
+      <!-- Card Header: Step Pill + Badge -->
+      <g transform="translate(18, 18)">
+        <rect width="70" height="22" rx="4" fill="#331c0c" stroke="#fbbf24" stroke-width="1" stroke-opacity="0.4" />
+        <text x="35" y="14.5" text-anchor="middle" fill="#fbbf24" class="badge-txt">STEP 03</text>
+        <rect x="170" y="2" width="74" height="18" rx="4" fill="#fbbf24" fill-opacity="0.12" />
+        <text x="207" y="14" text-anchor="middle" fill="#fde68a" class="badge-txt">DEV CRAFT</text>
+      </g>
+
+      <!-- Stage Title -->
+      <text x="20" y="76" fill="#ececea" class="card-title">Code with Precision</text>
+      <text x="20" y="96" fill="#fbbf24" class="mono-txt" font-weight="700" font-size="11">React 18 • Hoy System • No TS</text>
+
+      <!-- Architecture Bullets -->
+      <g transform="translate(20, 118)" class="mono-txt" font-size="10.5" fill="#a5a5a4">
+        <text y="0">• JavaScript only (.jsx / .js)</text>
+        <text y="18">• Hoy dark tokens (#191918, 6px radii)</text>
+        <text y="36">• Supabase RLS tenant isolation</text>
+        <text y="54">• Strict form validation with Zod</text>
+      </g>
+
+      <!-- Bottom Telemetry Chip -->
+      <line x1="20" y1="195" x2="260" y2="195" stroke="#381d09" stroke-width="1" />
+      <circle cx="26" cy="207" r="3" fill="#fbbf24" />
+      <text x="36" y="210" fill="#fbbf24" class="mono-txt" font-size="9" font-weight="700">HOY DESIGN COMPLIANT</text>
+    </g>
+  </g>
+
+  <!-- ===================================================================== -->
+  <!--                 STAGE CARDS ROW 2 (BOTTOM: 04, 05, 06)                -->
+  <!-- ===================================================================== -->
+
+  <!-- CARD 04: QUALITY GATE & TESTS -->
+  <g transform="translate(740, 405)">
+    <g class="f-4">
+      <rect width="280" height="225" rx="10" fill="url(#cardGrad4)" stroke="#19423c" stroke-width="1.4" filter="url(#elevationShadow)" />
+      <path d="M 10 0 L 270 0" stroke="url(#rimTeal)" stroke-width="2.5" stroke-linecap="round" />
+      
+      <!-- Card Header: Step Pill + Badge -->
+      <g transform="translate(18, 18)">
+        <rect width="70" height="22" rx="4" fill="#0e2925" stroke="#2dd4bf" stroke-width="1" stroke-opacity="0.4" />
+        <text x="35" y="14.5" text-anchor="middle" fill="#2dd4bf" class="badge-txt">STEP 04</text>
+        <rect x="170" y="2" width="74" height="18" rx="4" fill="#2dd4bf" fill-opacity="0.12" />
+        <text x="207" y="14" text-anchor="middle" fill="#99f6e4" class="badge-txt">TESTING</text>
+      </g>
+
+      <!-- Stage Title -->
+      <text x="20" y="76" fill="#ececea" class="card-title">Run Quality Matrix</text>
+      <text x="20" y="96" fill="#2dd4bf" class="mono-txt" font-weight="700" font-size="11">Vitest • RTL • Zero Regressions</text>
+
+      <!-- Architecture Bullets -->
+      <g transform="translate(20, 118)" class="mono-txt" font-size="10.5" fill="#a5a5a4">
+        <text y="0">• npm test (All 74 tests passing)</text>
+        <text y="18">• npm run test:watch for live feedback</text>
+        <text y="36">• npm run build verifies production</text>
+        <text y="54">• Add regression test for fixed bug</text>
+      </g>
+
+      <!-- Bottom Telemetry Chip -->
+      <line x1="20" y1="195" x2="260" y2="195" stroke="#12302b" stroke-width="1" />
+      <circle cx="26" cy="207" r="3" fill="#2dd4bf" />
+      <text x="36" y="210" fill="#2dd4bf" class="mono-txt" font-size="9" font-weight="700">74/74 UNIT TESTS PASS</text>
+    </g>
+  </g>
+
+  <!-- CARD 05: CONVENTIONAL COMMITS -->
+  <g transform="translate(410, 405)">
+    <g class="f-5">
+      <rect width="280" height="225" rx="10" fill="url(#cardGrad5)" stroke="#4d1624" stroke-width="1.4" filter="url(#elevationShadow)" />
+      <path d="M 10 0 L 270 0" stroke="url(#rimCrimson)" stroke-width="2.5" stroke-linecap="round" />
+      
+      <!-- Card Header: Step Pill + Badge -->
+      <g transform="translate(18, 18)">
+        <rect width="70" height="22" rx="4" fill="#300d16" stroke="#eb1b38" stroke-width="1" stroke-opacity="0.4" />
+        <text x="35" y="14.5" text-anchor="middle" fill="#ff4d66" class="badge-txt">STEP 05</text>
+        <rect x="170" y="2" width="74" height="18" rx="4" fill="#eb1b38" fill-opacity="0.12" />
+        <text x="207" y="14" text-anchor="middle" fill="#ff4d66" class="badge-txt">COMMITS</text>
+      </g>
+
+      <!-- Stage Title -->
+      <text x="20" y="76" fill="#ececea" class="card-title">Atomic Commits &amp; Push</text>
+      <text x="20" y="96" fill="#ff4d66" class="mono-txt" font-weight="700" font-size="11">Conventional Commits • Clean Git</text>
+
+      <!-- Architecture Bullets -->
+      <g transform="translate(20, 118)" class="mono-txt" font-size="10.5" fill="#a5a5a4">
+        <text y="0">• git checkout -b feature/your-name</text>
+        <text y="18">• git commit -m "feat(kanban): ..."</text>
+        <text y="36">• Keep changes focused and atomic</text>
+        <text y="54">• git push origin feature/your-name</text>
+      </g>
+
+      <!-- Bottom Telemetry Chip -->
+      <line x1="20" y1="195" x2="260" y2="195" stroke="#38101a" stroke-width="1" />
+      <circle cx="26" cy="207" r="3" fill="#eb1b38" />
+      <text x="36" y="210" fill="#ff4d66" class="mono-txt" font-size="9" font-weight="700">SEMANTIC LOG VALIDATED</text>
+    </g>
+  </g>
+
+  <!-- CARD 06: PR REVIEW & HALL OF FAME -->
+  <g transform="translate(80, 405)">
+    <g class="f-6">
+      <rect width="280" height="225" rx="10" fill="url(#cardGrad6)" stroke="#1a4223" stroke-width="1.4" filter="url(#elevationShadow)" />
+      <path d="M 10 0 L 270 0" stroke="url(#rimEmerald)" stroke-width="2.5" stroke-linecap="round" />
+      
+      <!-- Card Header: Step Pill + Badge -->
+      <g transform="translate(18, 18)">
+        <rect width="70" height="22" rx="4" fill="#0d2914" stroke="#10b981" stroke-width="1" stroke-opacity="0.4" />
+        <text x="35" y="14.5" text-anchor="middle" fill="#34d399" class="badge-txt">STEP 06</text>
+        <rect x="170" y="2" width="74" height="18" rx="4" fill="#10b981" fill-opacity="0.12" />
+        <text x="207" y="14" text-anchor="middle" fill="#6ee7b7" class="badge-txt">MERGE</text>
+      </g>
+
+      <!-- Stage Title -->
+      <text x="20" y="76" fill="#ececea" class="card-title">PR Review &amp; Merged</text>
+      <text x="20" y="96" fill="#34d399" class="mono-txt" font-weight="700" font-size="11">Squash Merge • Contributor Kudos</text>
+
+      <!-- Architecture Bullets -->
+      <g transform="translate(20, 118)" class="mono-txt" font-size="10.5" fill="#a5a5a4">
+        <text y="0">• Open PR with clear title &amp; description</text>
+        <text y="18">• Link issue: Closes #123</text>
+        <text y="36">• Fast maintainer feedback &amp; CI checks</text>
+        <text y="54">• Squash merged into main + credit!</text>
+      </g>
+
+      <!-- Bottom Telemetry Chip -->
+      <line x1="20" y1="195" x2="260" y2="195" stroke="#13331a" stroke-width="1" />
+      <circle cx="26" cy="207" r="3" fill="#10b981" />
+      <text x="36" y="210" fill="#34d399" class="mono-txt" font-size="9" font-weight="700">WELCOME TO THE CREW</text>
+    </g>
+  </g>
+</svg>
