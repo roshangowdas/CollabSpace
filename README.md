@@ -23,6 +23,7 @@
   <p align="center">
     <a href="#-core-platform-modules"><b>Explore Modules</b></a> •
     <a href="#️-system-architecture--3d-building-roadmap"><b>3D Architecture &amp; Roadmap</b></a> •
+    <a href="#-how-collabspace-works-end-to-end-architecture--api-engine"><b>How It Works &amp; APIs</b></a> •
     <a href="#-quick-start"><b>Quick Start</b></a> •
     <a href="#-security--data-isolation"><b>Security & RLS</b></a> •
     <a href="#-interactive-design-system"><b>Design System</b></a> •
@@ -263,6 +264,257 @@ flowchart TD
 > - **Dynamic Analytics:** Real-time KPI charts and team velocity metrics calculated dynamically with Recharts.
 
 </details>
+
+---
+
+## 🌐 How CollabSpace Works: End-to-End Architecture, API Engine & Real-Time Sync
+
+CollabSpace is engineered as a **distributed, low-latency collaboration engine** combining an optimistic React 18 client, Supabase PostgreSQL with strict Row Level Security (RLS), Supabase Realtime WebSockets, and a standalone Hocuspocus CRDT daemon.
+
+```
+╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+║                                        END-TO-END DATA CONDUIT LIFECYCLE                                              ║
+╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣
+║  1. USER ACTION        User drags a Kanban card, types a chat message, or updates a rich-text document                ║
+║           │                                                                                                           ║
+║           ▼                                                                                                           ║
+║  2. OPTIMISTIC UI      Client UI re-renders at 0ms latency with an automatic state snapshot snapshot for rollback     ║
+║           │                                                                                                           ║
+║           ▼                                                                                                           ║
+║  3. RATE LIMIT & AUTH  Client sliding-window limiter verifies quota; Supabase client attaches bearer JWT token        ║
+║           │                                                                                                           ║
+║           ▼                                                                                                           ║
+║  4. POSTGREST GATEWAY  Supabase API Gateway receives HTTPS REST / RPC call; validates JWT signature via GoTrue       ║
+║           │                                                                                                           ║
+║           ▼                                                                                                           ║
+║  5. RLS POLICY ENGINE  PostgreSQL executes SQL Row-Level Security: verifies auth.uid() ∈ target workspace_id         ║
+║           │                                                                                                           ║
+║           ▼                                                                                                           ║
+║  6. DATABASE COMMIT    Atomic SQL transaction commits row; triggers fire activity audit log & system notifications    ║
+║           │                                                                                                           ║
+║           ▼                                                                                                           ║
+║  7. REALTIME WEBSOCKET PostgreSQL WAL triggers Change Data Capture (CDC); Supabase Realtime emits websocket event     ║
+║           │                                                                                                           ║
+║           ▼                                                                                                           ║
+║  8. PEER HYDRATION     All active workspace peers receive delta payload (< 20ms); TanStack React Query cache updates  ║
+╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+```
+
+<br/>
+
+### 🔄 Interactive Request Lifecycle (Live Sequence Diagram)
+
+The sequence diagram below visualizes the exact network and database execution path for every user mutation:
+
+```mermaid
+sequenceDiagram
+  autonumber
+  actor User as 👤 User A (Browser)
+  participant UI as 🖥️ React 18 UI (Vite)
+  participant Cache as ⚡ TanStack Query Cache
+  participant RateLimit as 🛡️ Sliding-Window Limiter
+  participant Service as 🔌 Service Layer (src/services)
+  participant SupaAPI as 🚪 Supabase PostgREST Gateway
+  participant Postgres as 🐘 PostgreSQL (16 Tables + RLS)
+  participant Realtime as 📡 Supabase Realtime WebSocket
+  actor Peer as 👥 User B (Peer Collaborator)
+
+  User->>UI: Triggers action (e.g. Move Task / Send Message)
+  UI->>Cache: Apply Optimistic Update (Instant UI render at 0ms)
+  Note over UI,Cache: Takes rollback snapshot in case network fails
+  UI->>RateLimit: Check Sliding-Window Quota (max reqs/window)
+  RateLimit-->>UI: Quota Approved
+  UI->>Service: Call service method with sanitized payload
+  Service->>SupaAPI: HTTPS POST / PATCH / RPC with Bearer JWT
+  SupaAPI->>Postgres: Translate query to SQL with auth context
+  Note over Postgres: Evaluate RLS: auth.uid() IN workspace_members
+  alt RLS Policy Passes
+    Postgres-->>Postgres: Commit transaction & fire DB triggers
+    Postgres-->>SupaAPI: Return 200 OK with committed record
+    SupaAPI-->>Service: Return payload to client
+    Service-->>Cache: Confirm cache entry (Discard rollback snapshot)
+    Postgres-)Realtime: Emit WAL Change Data Capture (CDC)
+    Realtime-)Peer: Broadcast WebSocket delta event (< 20ms)
+    Peer->>Peer: Hydrate local cache & re-render view
+  else RLS Policy Fails / Network Error
+    SupaAPI-->>Service: 403 Forbidden / Error
+    Service-->>UI: Throw Error Toast
+    UI->>Cache: Rollback to pre-action snapshot
+  end
+```
+
+<br/>
+
+### 🔬 Interactive Engineering Deep Dives (Click to Inspect)
+
+<!-- Deep Dive 1 -->
+<details open>
+<summary>💻 <b>1. How the Frontend &amp; Website Work (React 18 + Vite + Hoy Design)</b></summary>
+<br/>
+
+> **Modern, modular, responsive single-page architecture built with zero monolithic debt.**
+
+- **Modular React Architecture**: The entire user interface is decoupled into atomic UI components (`src/components/ui`), feature domains (`kanban`, `chat`, `docs`, `whiteboard`, `admin`), custom hooks (`src/hooks`), and global context providers.
+- **Three-Tier State Hierarchy**:
+  1. **Local State (`useState`, `useReducer`)**: Manages ephemeral UI states like modals, dropdown toggles, slide-over task drawers, and form input controls.
+  2. **Global Context Providers**:
+     - `AuthContext`: Tracks authenticated user profile, session state, and login metadata.
+     - `WorkspaceContext`: Maintains active workspace, role permissions (Owner, Admin, Member, Viewer), and project selection.
+     - `PresenceContext`: Manages WebSocket channel heartbeats and live online participant pills.
+  3. **Server Cache (`TanStack React Query v5`)**: Handles background data fetching, automatic caching, garbage collection, and stale-while-revalidate invalidations.
+- **Optimistic UI with Automatic Rollbacks**:
+  - When a user drags a task card across Kanban columns (`@dnd-kit`), the UI moves the card immediately (0ms perceptual latency).
+  - A pre-mutation snapshot is saved in React state. If Supabase returns a network failure or permission violation, the UI automatically rolls back to the snapshot and surfaces an error toast via Sonner.
+- **Hoy Design System Implementation**:
+  - Warm dark aesthetic (`#191918` base, `#222221` cards, `#ECECEA` text).
+  - Micro-radii (`6px` rounded corners) creating sharp, professional SaaS interfaces.
+  - Zero generic AI website aesthetics or unnecessary heavy glassmorphism.
+
+</details>
+
+<!-- Deep Dive 2 -->
+<details>
+<summary>⚡ <b>2. How the API Gateway &amp; PostgREST Engine Work</b></summary>
+<br/>
+
+> **Declarative, type-safe query translation directly into high-performance PostgreSQL queries.**
+
+- **The Supabase JavaScript SDK (`@supabase/supabase-js`)**:
+  - Every API call is initiated through the centralized client in `src/integrations/supabase/client.js`.
+  - Supports fluent method chaining:
+    ```javascript
+    const { data, error } = await supabase
+      .from('tasks')
+      .select('*, assignee:profiles(full_name, avatar_url), comments:task_comments(count)')
+      .eq('project_id', projectId)
+      .order('position', { ascending: true })
+    ```
+- **Automatic JWT Bearer Token Injection**:
+  - Every HTTP query sent to Supabase PostgREST automatically includes the authenticated user's JWT access token in the `Authorization: Bearer <token>` header.
+  - Supabase GoTrue automatically handles silent background token refreshes using refresh tokens stored securely in `localStorage`.
+- **Security Definer RPC Functions**:
+  - Sensitive multi-table transactions (such as safe workspace invitations, super admin actions, and workspace deletions) execute through PostgreSQL Security Definer RPC functions (`supabase.rpc('name', params)`), preventing client-side permission escalations.
+- **Dedicated Service Layer (`src/services/`)**:
+  - React components never write raw database queries directly. Instead, they interact exclusively with dedicated service modules (`tasks.js`, `chat.js`, `projects.js`, `workspaces.js`), ensuring clean separation of concerns and effortless testability.
+
+</details>
+
+<!-- Deep Dive 3 -->
+<details>
+<summary>🐘 <b>3. How Multi-Tenant PostgreSQL &amp; Row Level Security (RLS) Work</b></summary>
+<br/>
+
+> **Guaranteed tenant isolation enforced at the PostgreSQL kernel level across all 16 application tables.**
+
+- **Row Level Security (RLS) Execution**:
+  - Unlike traditional applications where security is only checked in application code, PostgreSQL evaluates RLS policies **on every single SQL statement** before data ever leaves the database engine.
+  - When a user queries `public.tasks`, PostgreSQL executes:
+    ```sql
+    CREATE POLICY "Workspace members can view tasks"
+      ON public.tasks FOR SELECT
+      USING (
+        project_id IN (
+          SELECT p.id FROM public.projects p
+          JOIN public.workspace_members wm ON wm.workspace_id = p.workspace_id
+          WHERE wm.user_id = auth.uid()
+        )
+      );
+    ```
+  - If a malicious user attempts to request a task ID belonging to another workspace, PostgreSQL returns an empty set or a 403 Forbidden error—guaranteeing **zero cross-tenant data leakage**.
+- **Automated Database Triggers**:
+  - **Activity Logging**: Automated PostgreSQL triggers listen for `INSERT` / `UPDATE` on tasks, projects, and memberships, automatically appending structured audit entries into `public.activity_logs`.
+  - **Notification Dispatch**: Assigning a task or mentioning a collaborator creates an automatic record in `public.notifications`.
+
+</details>
+
+<!-- Deep Dive 4 -->
+<details>
+<summary>📡 <b>4. How Real-Time WebSockets &amp; Live Presence Work (&lt; 20ms Sync)</b></summary>
+<br/>
+
+> **Bi-directional event mesh providing instant collaborator updates, typing indicators, and presence.**
+
+- **PostgreSQL Change Data Capture (CDC)**:
+  - Supabase Realtime listens to PostgreSQL's Write-Ahead Log (WAL) and converts table mutations into WebSocket events.
+  - Clients subscribe to specific table channels with scoped filters:
+    ```javascript
+    const channel = supabase
+      .channel(`project-tasks-${projectId}`)
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'tasks',
+        filter: `project_id=eq.${projectId}`
+      }, (payload) => {
+        handleRealtimeTaskChange(payload)
+      })
+      .subscribe()
+    ```
+- **Ephemeral Broadcast Channels (Chat & Typing)**:
+  - Ephemeral events (such as *"Roshan is typing..."* or live whiteboard mouse positions) are sent directly through WebSocket broadcast channels without touching the database disk, minimizing latency to **under 20ms**.
+- **Heartbeat Presence Mesh**:
+  - `PresenceContext` tracks user connection states. Every connected peer broadcasts their current user ID, avatar, and active page. If a client disconnects or closes their tab, Supabase Realtime automatically broadcasts a `leave` event, removing their online badge across all workspace peer screens.
+
+</details>
+
+<!-- Deep Dive 5 -->
+<details>
+<summary>📝 <b>5. How the Collaborative Docs CRDT Engine Works (Tiptap + Yjs + Hocuspocus)</b></summary>
+<br/>
+
+> **Conflict-free concurrent document editing with mathematical convergence guarantees.**
+
+- **Why Traditional REST APIs Fail for Live Documents**:
+  - When two users type simultaneously at different positions in a document, standard REST `PUT` / `PATCH` requests overwrite each other, causing lost edits and corrupted text state.
+- **Mathematical Conflict-Free Replicated Data Types (Yjs CRDTs)**:
+  - Yjs models text as an immutable sequence of character items with unique client IDs and monotonic clocks.
+  - When User A types a word and User B deletes a sentence simultaneously, Yjs deterministically merges the operational deltas without requiring a centralized lock or causing merge collisions.
+- **Standalone Hocuspocus WebSocket Server (`server/index.js`)**:
+  - CollabSpace includes a dedicated Node.js WebSocket daemon running on port `1234`.
+  - **JWT Authentication**: On connection, Hocuspocus verifies the user's Supabase JWT token and checks `public.project_members` to ensure they have read/write access.
+  - **Room Multiplexing**: Documents are partitioned into isolated rooms (`doc-${documentId}`).
+  - **Debounced PostgreSQL Snapshots**: As users type, the document state is held in memory for sub-millisecond sync; debounced snapshots are periodically saved back to `public.documents.content` in PostgreSQL for persistent long-term storage.
+
+</details>
+
+<!-- Deep Dive 6 -->
+<details>
+<summary>📦 <b>6. How Supabase Storage &amp; Private Buckets Work</b></summary>
+<br/>
+
+> **Secure, signed asset storage with multi-factor upload validation and access control.**
+
+- **Private Storage Buckets (`workspace-files`, `avatars`)**:
+  - Buckets are created with `public = false`. File assets cannot be accessed directly via static URLs.
+  - When a user views an attachment or avatar, the client calls `supabase.storage.from('workspace-files').createSignedUrl(path, 3600)`, generating an expiring, time-limited cryptographic URL.
+- **Client-Side Security Pipeline**:
+  - **MIME-Type Whitelisting**: Blocks executable files (`.exe`, `.sh`, `.bat`) and only permits documents (`.pdf`, `.docx`, `.txt`), code files, and images (`.png`, `.jpg`, `.svg`).
+  - **File Size Validation**: Strict 10MB file limit per attachment enforced before initiating the upload stream.
+  - **Filename Sanitization**: Automatically strips path traversal characters (`../`, special symbols) to prevent directory injection.
+
+</details>
+
+<br/>
+
+### 📊 Service & API Directory Matrix
+
+Every service in `src/services/` encapsulates distinct platform functionality with corresponding database tables and protocols:
+
+| Service Module | Target Database Tables | Protocol | Key Functional Responsibilities |
+| :--- | :--- | :---: | :--- |
+| **`auth.js`** | `auth.users`, `public.profiles` | HTTPS REST | GoTrue session login, registration, password updates, metadata sync |
+| **`tasks.js`** | `public.tasks`, `public.task_comments` | REST + WS | Kanban task CRUD, fractional position calculation, slide-over drawer comments |
+| **`chat.js`** | `public.messages`, `public.attachments` | REST + WS | Real-time channel messaging, threaded parent replies, attachment previews |
+| **`documents.js`** | `public.documents`, `public.document_updates` | WS (CRDT) | Collaborative rich text docs, Hocuspocus Yjs room token generation |
+| **`whiteboards.js`** | `public.whiteboards`, `public.whiteboard_elements` | REST + WS | Infinite canvas elements, sticky notes, geometric shapes, delta sync |
+| **`workspaces.js`** | `public.workspaces`, `public.workspace_members` | HTTPS REST | Workspace CRUD, role assignment (Owner/Admin/Member/Viewer), switcher |
+| **`projects.js`** | `public.projects`, `public.project_members` | HTTPS REST | Project lifecycle management, deadline tracking, collaborator attribution |
+| **`analytics.js`** | Aggregated view across all tables | Client Math | KPI calculations, weekly velocity charts, member workload distributions |
+| **`admin.js`** | System-wide audit tables & RPCs | HTTPS RPC | Single super admin console (`/admin`), rate limiting, activity audit trail |
+| **`files.js`** | `storage.objects`, `public.attachments` | HTTPS REST | Private bucket upload, signed URL generation, MIME validation |
+| **`presence.js`** | Ephemeral Realtime channels | WebSockets | Heartbeat presence mesh, active collaborator pills, typing indicators |
+| **`notifications.js`** | `public.notifications` | REST + WS | User notifications, unread badges, mark-as-read mutations |
+| **`profiles.js`** | `public.profiles` | HTTPS REST | Profile settings, job title updates, Supabase storage avatar uploads |
 
 ---
 
