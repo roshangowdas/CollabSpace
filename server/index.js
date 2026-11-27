@@ -7,7 +7,7 @@
 
 import { createHocuspocusServer } from './hocuspocus.js'
 
-const PORT = Number(process.env.HOCUSPOCUS_PORT) || 1234
+const PORT = Number(process.env.PORT) || Number(process.env.HOCUSPOCUS_PORT) || 1234
 
 const server = createHocuspocusServer({ port: PORT })
 

@@ -19,7 +19,7 @@ import { loadDocumentState, storeDocumentState } from './persistence.js'
  * @returns {Server}
  */
 export function createHocuspocusServer(options = {}) {
-  const port = options.port || Number(process.env.HOCUSPOCUS_PORT) || 1234
+  const port = options.port || Number(process.env.PORT) || Number(process.env.HOCUSPOCUS_PORT) || 1234
 
   const server = Server.configure({
     port,
