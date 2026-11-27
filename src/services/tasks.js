@@ -524,8 +524,11 @@ export async function getProjectAssignees(projectId) {
  * @param {object} [filters={}]
  * @returns {Promise<Array<object>>}
  */
-export async function getWorkspaceTasks(workspaceId, filters = {}) {
+export async function getWorkspaceTasks(workspaceId, filters = {}, options = {}) {
   if (!workspaceId) return []
+
+  const limit = options.limit || (options.pageSize ? options.pageSize : null)
+  const offset = options.offset || (options.page && limit ? (options.page - 1) * limit : 0)
 
   if (!isSupabaseConfigured || workspaceId.startsWith('demo-')) {
     let result = DEMO_TASKS.filter((t) => t.workspace_id === workspaceId || workspaceId === 'demo-ws-acme-corp')
@@ -550,6 +553,9 @@ export async function getWorkspaceTasks(workspaceId, filters = {}) {
           t.labels.some((l) => l.toLowerCase().includes(q)) ||
           `${t.project?.key}-${t.task_number}`.toLowerCase().includes(q)
       )
+    }
+    if (limit) {
+      result = result.slice(offset, offset + limit)
     }
     return result
   }
@@ -610,6 +616,10 @@ export async function getWorkspaceTasks(workspaceId, filters = {}) {
     }
 
     query = query.order('position', { ascending: true }).order('created_at', { ascending: false })
+
+    if (limit) {
+      query = query.range(offset, offset + limit - 1)
+    }
 
     const { data, error } = await query
     if (error) {

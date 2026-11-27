@@ -271,23 +271,19 @@ export async function getWorkspaceProjects(workspaceId) {
       return []
     }
 
-    // 2. Fetch task counts for progress computation
+    // 2. Fetch task counts & member counts concurrently in parallel to avoid waterfall latency
     const projectIds = projects.map((p) => p.id)
-    const { data: tasks, error: tasksError } = await supabase
-      .from('tasks')
-      .select('id, project_id, status')
-      .in('project_id', projectIds)
+    const [
+      { data: tasks, error: tasksError },
+      { data: members, error: membersError },
+    ] = await Promise.all([
+      supabase.from('tasks').select('id, project_id, status').in('project_id', projectIds),
+      supabase.from('project_members').select('project_id, user_id').in('project_id', projectIds),
+    ])
 
     if (tasksError) {
       console.warn('Error fetching project task counts:', tasksError.message)
     }
-
-    // 3. Fetch member counts
-    const { data: members, error: membersError } = await supabase
-      .from('project_members')
-      .select('project_id, user_id')
-      .in('project_id', projectIds)
-
     if (membersError) {
       console.warn('Error fetching project member counts:', membersError.message)
     }

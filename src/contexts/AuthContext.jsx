@@ -16,6 +16,7 @@ import {
   removeAvatar as profileRemoveAvatar,
   checkUsernameAvailability,
 } from '@/services/profiles'
+import { clearPrivateCache } from '@/lib/queryClient'
 
 const AuthContext = createContext(null)
 
@@ -225,6 +226,9 @@ export function AuthProvider({ children }) {
     } catch {
       // Ignore
     }
+    // Security: Purge all private in-memory query cache data immediately
+    clearPrivateCache()
+
     if (isDemoUser) {
       setUser(null)
       setSession(null)

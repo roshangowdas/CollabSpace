@@ -403,43 +403,8 @@ export async function getWorkspaceAnalytics(workspaceId, options = {}) {
       projectsQuery = projectsQuery.eq('id', projectId)
     }
 
-    const { data: projectsData, error: projectsError } = await projectsQuery
-    if (projectsError) throw handleDatabaseError(projectsError)
-    const projects = projectsData || []
-
-    // 2. Fetch authorized tasks in workspace
-    let tasksQuery = supabase
-      .from('tasks')
-      .select(`
-        id,
-        workspace_id,
-        project_id,
-        title,
-        status,
-        priority,
-        due_date,
-        assignee_id,
-        created_at,
-        updated_at,
-        assignee:assignee_id (
-          id,
-          full_name,
-          username,
-          avatar_url
-        )
-      `)
-      .eq('workspace_id', workspaceId)
-
-    if (projectId && projectId !== 'all') {
-      tasksQuery = tasksQuery.eq('project_id', projectId)
-    }
-
-    const { data: tasksData, error: tasksError } = await tasksQuery
-    if (tasksError) throw handleDatabaseError(tasksError)
-    const tasks = tasksData || []
-
-    // 3. Fetch workspace members
-    const { data: membersData, error: membersError } = await supabase
+    // Parallel execution of all 4 analytics queries to eliminate waterfall latency
+    const membersQuery = supabase
       .from('workspace_members')
       .select(`
         user_id,
@@ -453,10 +418,6 @@ export async function getWorkspaceAnalytics(workspaceId, options = {}) {
       `)
       .eq('workspace_id', workspaceId)
 
-    if (membersError) throw handleDatabaseError(membersError)
-    const members = membersData || []
-
-    // 4. Fetch recent activity logs
     let activitiesQuery = supabase
       .from('activity_logs')
       .select(`
@@ -478,7 +439,25 @@ export async function getWorkspaceAnalytics(workspaceId, options = {}) {
       .order('created_at', { ascending: false })
       .limit(20)
 
-    const { data: activitiesData } = await activitiesQuery
+    const [
+      { data: projectsData, error: projectsError },
+      { data: tasksData, error: tasksError },
+      { data: membersData, error: membersError },
+      { data: activitiesData },
+    ] = await Promise.all([
+      projectsQuery,
+      tasksQuery,
+      membersQuery,
+      activitiesQuery,
+    ])
+
+    if (projectsError) throw handleDatabaseError(projectsError)
+    if (tasksError) throw handleDatabaseError(tasksError)
+    if (membersError) throw handleDatabaseError(membersError)
+
+    const projects = projectsData || []
+    const tasks = tasksData || []
+    const members = membersData || []
     const activities = activitiesData || []
 
     return computeAnalyticsMetrics({
